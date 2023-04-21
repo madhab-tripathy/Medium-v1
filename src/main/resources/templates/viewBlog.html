@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Blogs</title>
+</head>
+<body>
+    <div class="user-blogs">
+        <div class="user-blog-header">
+            <h3 th:text="${blogs.title}"></h3>
+            <time th:text="${blogs.pubDate}"></time>
+        </div>
+        <div class="user-blog-content" th:utext="${blogs.contents}">
+
+        </div>
+    </div>
+</body>
+</html>

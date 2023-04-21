@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post</title>
+  </head>
+  <body>
+    <form method="post" action="makePost">
+      <div class="blog-post">
+        <div class="blog-title-layer">
+          <label for="blog-title"></label>
+          <input id="blog-title" name="title" placeholder="Title" />
+          <div class="blog-post-btns">
+            <button type="submit">Post</button>
+          </div>
+        </div>
+        <div class="blog-content-layer">
+          <label for="blog-content"></label><br>
+          <textarea id="blog-content" rows="10" cols="50" placeholder="Write your Content" name="contents"></textarea>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>

@@ -1,14 +1,14 @@
 package com.programmer.Blog1.Security.Model;
 
+import com.programmer.Blog1.Blogger.Model.BlogEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serial;
-import java.io.Serializable;
-
+import java.util.List;
+import java.util.ArrayList;
 @Entity
 @Data
 @AllArgsConstructor
@@ -31,5 +31,6 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
+
 
 }
