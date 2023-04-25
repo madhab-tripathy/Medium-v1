@@ -28,5 +28,7 @@ public class BlogEntity {
     @CreationTimestamp
     private Date pubDate;
 
-
+    @ManyToOne
+    @JoinColumn
+    UserEntity userEntity;
 }

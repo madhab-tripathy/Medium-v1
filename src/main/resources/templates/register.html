@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html lang="">
+<html lang="" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base::layout(~{::form})">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +8,22 @@
     <title>register</title>
 </head>
 <body>
-    <form method="post" action="register">
+    <div>
+        <h1>Message Block</h1>
+        <th:block th:if="${session.message}">
+            <p>
+                [[${session.message}]]
+            </p>
+<!--            remove attribute -->
+            <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+        </th:block>
+    </div>
+    <form method="post" action="createUser">
         <label for="name">Full Name<span>*</span></label>
         <input id="name" type="text" name="name" required><br>
+
+        <label for="username">Username<span>*</span></label>
+        <input id="username" type="text" name="username" required><br>
 
         <label for="email">Email<span>*</span></label>
         <input id="email" type="email" name="email" required><br>

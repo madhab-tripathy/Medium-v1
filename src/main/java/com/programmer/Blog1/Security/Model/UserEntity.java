@@ -23,7 +23,10 @@ public class UserEntity {
     @Column(length = 50,nullable = false)
     private String  name;
 
-    @Column(length = 50,nullable = false)
+    @Column(length = 20, nullable = false, unique = true)
+    private String username;
+
+    @Column(length = 50,nullable = false, unique = true)
     private String email;
 
     @Column(length = 15,nullable = false)
@@ -32,5 +35,8 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    private String role;
 
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    List<BlogEntity> blogList = new ArrayList<>();
 }

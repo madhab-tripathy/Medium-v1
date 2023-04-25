@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base::layout(~{::form})">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +9,8 @@
 </head>
 <body>
     <form method="post" action="login">
-        <label for="email">Email<span>*</span></label>
-        <input id="email" type="email" name="email" required><br>
+        <label for="username">Username<span>*</span></label>
+        <input id="username" type="text" name="username" required><br>
         <label for="password">Password<span>*</span></label>
         <input id="password" type="password" name="password" required><br>
         <a th:href="@{/forgot}">Forgot Password?</a>

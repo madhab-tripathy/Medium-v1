@@ -10,10 +10,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/blogs")
+@RequestMapping("/user/blog")
 public class BlogController {
     @Autowired
     private BlogServiceImp blogService;
+
+    // here return types are html page, if the html pages are present in a directory then
+    // we have to write like this folder/fileName
+    @GetMapping({"/","/allBlogs"})
+    public String blogs(){
+        return "blog/blogs";
+    }
     @GetMapping("/makePost")
     public String blogPage(){
         return "makePost";
@@ -27,6 +34,7 @@ public class BlogController {
         }
         return "redirect:/blogs/makePost";
     }
+    // TODO 1: Make a getMapping with api /blog/userBlogs
     @GetMapping("/viewBlog")
     public String viewBlogById(@RequestParam int blogId, Model model){
         BlogResponseDto blogResponseDto;
