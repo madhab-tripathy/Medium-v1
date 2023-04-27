@@ -1,10 +1,9 @@
 package com.programmer.Blog1.Security.Service.ServiceImp;
 
-import com.programmer.Blog1.Blogger.Model.BlogEntity;
-import com.programmer.Blog1.Blogger.Repository.BlogRepository;
-import com.programmer.Blog1.Blogger.ResponseDto.BlogResponseDto;
-import com.programmer.Blog1.Blogger.ResponseDto.HomeBlogResponseDto;
-import com.programmer.Blog1.Blogger.Service.ServiceImp.BlogServiceImp;
+import com.programmer.Blog1.Security.Model.BlogEntity;
+import com.programmer.Blog1.Security.Repository.BlogRepository;
+import com.programmer.Blog1.Security.ResponseDto.BlogResponseDto;
+import com.programmer.Blog1.Security.ResponseDto.HomeBlogResponseDto;
 import com.programmer.Blog1.Security.Model.UserEntity;
 import com.programmer.Blog1.Security.Repository.UserRepository;
 import com.programmer.Blog1.Security.RequestDto.UserLoginDto;

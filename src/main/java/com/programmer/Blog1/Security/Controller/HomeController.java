@@ -1,15 +1,12 @@
 package com.programmer.Blog1.Security.Controller;
 
-import com.programmer.Blog1.Blogger.Controller.BlogController;
-import com.programmer.Blog1.Blogger.ResponseDto.BlogResponseDto;
-import com.programmer.Blog1.Blogger.ResponseDto.HomeBlogResponseDto;
+import com.programmer.Blog1.Security.ResponseDto.HomeBlogResponseDto;
 import com.programmer.Blog1.Security.Exception.UserAlreadyExist;
 import com.programmer.Blog1.Security.RequestDto.UserDto;
 import com.programmer.Blog1.Security.RequestDto.UserLoginDto;
 import com.programmer.Blog1.Security.ResponseDto.UserResponseDto;
 import com.programmer.Blog1.Security.Service.ServiceImp.HomeServiceImp;
 import com.programmer.Blog1.Security.Service.UserService;
-import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;

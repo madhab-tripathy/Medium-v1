@@ -1,14 +1,13 @@
-package com.programmer.Blog1.Blogger.Service.ServiceImp;
+package com.programmer.Blog1.Security.Service.ServiceImp;
 
-import com.programmer.Blog1.Blogger.Exception.BlogNotFound;
-import com.programmer.Blog1.Blogger.Model.BlogEntity;
-import com.programmer.Blog1.Blogger.Repository.BlogRepository;
-import com.programmer.Blog1.Blogger.RequestDto.PostRequestDto;
-import com.programmer.Blog1.Blogger.ResponseDto.BlogResponseDto;
+import com.programmer.Blog1.Security.Exception.BlogNotFound;
+import com.programmer.Blog1.Security.Model.BlogEntity;
+import com.programmer.Blog1.Security.Repository.BlogRepository;
+import com.programmer.Blog1.Security.RequestDto.PostRequestDto;
+import com.programmer.Blog1.Security.ResponseDto.BlogResponseDto;
 import com.programmer.Blog1.Security.Model.UserEntity;
 import com.programmer.Blog1.Security.Repository.UserRepository;
 import org.jsoup.safety.Safelist;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,25 +27,30 @@ public class BlogServiceImp {
     @Autowired
     private UserRepository userRepository;
     private final Pattern IMAGE_URL_PATTERN = Pattern.compile("(?i)\\b((?:https?://|www\\d*\\.|m\\.)\\S+\\.(?:jpg|jpeg|png|gif|bmp|svg|webp|jfif))\\b");
-    public BlogEntity createBlogPost(String username,PostRequestDto postRequestDto){
+    public BlogEntity getBlogById(long id) throws Exception {
+        BlogEntity blog ;
+        try {
+            blog = blogRepository.findById(id).get();
+        }catch (Exception e){
+            throw new Exception("Blog Not Found");
+        }
+        return blog;
+    }
+    public BlogEntity createBlogPost(String username,PostRequestDto postRequestDto) throws Exception {
         BlogEntity blog = new BlogEntity();
         String title = postRequestDto.getTitle();
         String content = postRequestDto.getContents();
         String description = postRequestDto.getDescription();
         if(title.isBlank()){
-            throw new NullPointerException("Must Contain a title");
+            throw new Exception("Must Contain a title");
         }
         if (content.isBlank()){
-            throw new NullPointerException("Must Contain a Content");
+            throw new Exception("Must Contain a Content");
         }
         if (description.isBlank()){
-            throw new NullPointerException("Must Contain a description");
+            throw new Exception("Must Contain a description");
         }
         UserEntity user = userRepository.findByUsername(username);
-        saveBlog(blog,user,content,title,description);
-        return blog;
-    }
-    private void saveBlog(BlogEntity blog, UserEntity user,String content,String title, String description){
         blog.setContents(content);
         blog.setTitle(title);
         blog.setDescription(description);
@@ -56,41 +60,35 @@ public class BlogServiceImp {
         blogList.add(blog);
         user.setBlogList(blogList);
         userRepository.save(user);
+        return blog;
     }
-    public void updateBlogPost(String username,PostRequestDto postRequestDto){
+    public BlogEntity updateBlogPost(long id,PostRequestDto postRequestDto) throws Exception {
+        BlogEntity blog;
+        try {
+            blog = blogRepository.findById(id).get();
+        }catch (Exception e){
+            throw new Exception("Blog not found!!");
+        }
+
         String title = postRequestDto.getTitle();
         String content = postRequestDto.getContents();
         String description = postRequestDto.getDescription();
         if(title.isBlank()){
-            throw new NullPointerException("Must Contain a title");
+            throw new Exception("Must Contain a title");
         }
         if (content.isBlank()){
-            throw new NullPointerException("Must Contain a Content");
+            throw new Exception("Must Contain a Content");
         }
         if (description.isBlank()){
-            throw new NullPointerException("Must Contain a description");
+            throw new Exception("Must Contain a description");
         }
-        UserEntity user = userRepository.findByUsername(username);
-        String uri = user.getUrl();
-        List<BlogEntity> blogs = user.getBlogList();
-        for(BlogEntity blog : blogs){
-            String blogPattern = "/"+username+"/"+blog.getTitle();
-            if(uri.equals(blogPattern)){
-                blog.setContents(content);
-                blog.setTitle(title);
-                blog.setDescription(description);
-                blog.setPubDate(new Date());
-                blogRepository.save(blog);
-                return;
-            }
-        }
-    }
-    public void makeUrlForBlog(String username,BlogEntity blog){
-        String blogTitle = blog.getTitle();
-        String blogUrl = "/"+username+"/"+blogTitle;
-        UserEntity user = userRepository.findByUsername(username);
-        user.setUrl(blogUrl);
-        userRepository.save(user);
+
+        blog.setTitle(title);
+        blog.setContents(content);
+        blog.setDescription(description);
+        blog.setPubDate(blog.getPubDate());
+        blogRepository.save(blog);
+        return blog;
     }
     public List<BlogResponseDto> findAllBlogsPostedByCurrentUser(String username){
         // get the current user by username
@@ -101,7 +99,7 @@ public class BlogServiceImp {
         List<BlogResponseDto> blogResponseDtos = new ArrayList<>();
         for(BlogEntity blog : blogs){
             BlogResponseDto blogResponseDto = new BlogResponseDto();
-
+            blogResponseDto.setId(blog.getId());
             blogResponseDto.setTitle(blog.getTitle());
             // convert image url to image
             String contentWithImage = replaceImageUrls(blog.getContents());

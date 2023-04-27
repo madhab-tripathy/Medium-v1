@@ -7,7 +7,7 @@
 </head>
 <body>
 <section>
-    <form method="post" action="edit-post" th:object="${edit}">
+    <form method="post" th:action="@{/user/blog/{username}/{id}(id=${edit.id})}" th:object="${edit}">
         <div class="blog-post-form">
             <div class="blog-title-layer">
                 <label for="blog-title"></label>

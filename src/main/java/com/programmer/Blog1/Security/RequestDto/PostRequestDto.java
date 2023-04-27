@@ -1,4 +1,4 @@
-package com.programmer.Blog1.Blogger.RequestDto;
+package com.programmer.Blog1.Security.RequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostRequestDto {
+    private long id;
     private String title;
     private String contents;
     private String description;

@@ -1,4 +1,4 @@
-package com.programmer.Blog1.Blogger.ResponseDto;
+package com.programmer.Blog1.Security.ResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BlogResponseDto {
+    private long id;
     private String title;
     private String contents;
     private String description;

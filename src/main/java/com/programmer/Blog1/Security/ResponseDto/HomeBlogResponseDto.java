@@ -1,5 +1,6 @@
-package com.programmer.Blog1.Blogger.ResponseDto;
+package com.programmer.Blog1.Security.ResponseDto;
 
+import com.programmer.Blog1.Security.ResponseDto.BlogResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

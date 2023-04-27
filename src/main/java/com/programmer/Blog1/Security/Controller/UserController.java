@@ -1,10 +1,7 @@
 package com.programmer.Blog1.Security.Controller;
 
-import com.programmer.Blog1.Blogger.Controller.BlogController;
-import com.programmer.Blog1.Blogger.Model.BlogEntity;
-import com.programmer.Blog1.Blogger.RequestDto.PostRequestDto;
-import com.programmer.Blog1.Blogger.ResponseDto.HomeBlogResponseDto;
-import com.programmer.Blog1.Security.Model.UserEntity;
+import com.programmer.Blog1.Security.Repository.BlogRepository;
+import com.programmer.Blog1.Security.ResponseDto.HomeBlogResponseDto;
 import com.programmer.Blog1.Security.Repository.UserRepository;
 import com.programmer.Blog1.Security.RequestDto.UserLoginDto;
 import com.programmer.Blog1.Security.ResponseDto.UserResponseDto;
@@ -14,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
@@ -29,6 +25,8 @@ public class UserController {
     private HomeServiceImp homeService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BlogRepository blogRepository;
     @ModelAttribute
     private void userDetails(Model m, Principal p){
         String username = p.getName();
@@ -49,14 +47,18 @@ public class UserController {
     public String writeBlogByUser(){
         return "redirect:/user/blog/make-post";
     }
-    @GetMapping("/edit")
-    public String loadEditPost(Principal p){
+    @GetMapping("/edit/{id}")
+    public String showEditPage(Principal p,@PathVariable long id){
         String username = p.getName();
-        UserResponseDto user = userService.getUserByUsername(username);
-        String[] uri = user.getUrl().split("/");
-        String title = uri[2];
-        return "redirect:/user/blog/"+username+"/"+title;
+        return "redirect:/user/blog/"+username+"/"+id;
     }
+    // TODO 3: Delete blog post
+    @GetMapping("/delete/{id}")
+    public String deletePost(Principal p, @PathVariable long id){
+        blogRepository.deleteById(id);
+        return "redirect:/user/user-blogs";
+    }
+
 
 
 

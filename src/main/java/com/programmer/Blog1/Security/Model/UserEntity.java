@@ -1,6 +1,5 @@
 package com.programmer.Blog1.Security.Model;
 
-import com.programmer.Blog1.Blogger.Model.BlogEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,9 +35,6 @@ public class UserEntity {
     private String password;
 
     private String role;
-
-    @Column(unique = true)
-    private String url;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     List<BlogEntity> blogList = new ArrayList<>();

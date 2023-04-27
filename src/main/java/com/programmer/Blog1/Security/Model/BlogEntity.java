@@ -1,4 +1,4 @@
-package com.programmer.Blog1.Blogger.Model;
+package com.programmer.Blog1.Security.Model;
 
 import com.programmer.Blog1.Security.Model.UserEntity;
 import lombok.AllArgsConstructor;

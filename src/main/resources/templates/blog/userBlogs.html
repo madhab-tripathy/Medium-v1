@@ -14,8 +14,8 @@
             <p th:text="${blog.description}"></p>
         </div>
         <div>
-            <a href="/user/edit">Edit</a>
-            <a href="#">Delete</a>
+            <a th:href="@{/user/edit/{id}(id=${blog.id})}">Edit</a>
+            <a th:href="@{/user/delete/{id}(id=${blog.id})}">Delete</a>
         </div>
         <div class="user-blog-content" th:utext="${blog.contents}">
 

@@ -1,12 +1,10 @@
-package com.programmer.Blog1.Blogger.Repository;
+package com.programmer.Blog1.Security.Repository;
 
-import com.programmer.Blog1.Blogger.Model.BlogEntity;
-import com.programmer.Blog1.Blogger.ResponseDto.BlogResponseDto;
+import com.programmer.Blog1.Security.Model.BlogEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface BlogRepository extends JpaRepository<BlogEntity,Long> {

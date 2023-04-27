@@ -1,21 +1,18 @@
-package com.programmer.Blog1.Blogger.Controller;
+package com.programmer.Blog1.Security.Controller;
 
-import com.programmer.Blog1.Blogger.Model.BlogEntity;
-import com.programmer.Blog1.Blogger.Repository.BlogRepository;
-import com.programmer.Blog1.Blogger.RequestDto.PostRequestDto;
-import com.programmer.Blog1.Blogger.ResponseDto.BlogResponseDto;
-import com.programmer.Blog1.Blogger.Service.ServiceImp.BlogServiceImp;
-import com.programmer.Blog1.Security.Model.UserEntity;
-import com.programmer.Blog1.Security.Repository.UserRepository;
+import com.programmer.Blog1.Security.Model.BlogEntity;
+import com.programmer.Blog1.Security.Repository.BlogRepository;
+import com.programmer.Blog1.Security.RequestDto.PostRequestDto;
+import com.programmer.Blog1.Security.ResponseDto.BlogResponseDto;
+import com.programmer.Blog1.Security.Service.ServiceImp.BlogServiceImp;
 import com.programmer.Blog1.Security.ResponseDto.UserResponseDto;
 import com.programmer.Blog1.Security.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.security.Principal;
 import java.util.List;
@@ -52,8 +49,8 @@ public class BlogController {
         String username = p.getName();
         try {
             BlogEntity blog = blogService.createBlogPost(username,postRequestDto);
-            blogService.makeUrlForBlog(username,blog);
-        }catch (NullPointerException e){
+        }catch (Exception e){
+            System.out.println(e.getMessage());
             return "redirect:/user/blog/make-post";
         }
         return "redirect:/user/blog/my-blogs";
@@ -73,22 +70,27 @@ public class BlogController {
         return "redirect:/user/blog/"+username;
     }
     // TODO 2: update blog post
-    @GetMapping("/{username}/{title}")
-    public String showEditForm(@PathVariable String title, Model model) {
-        BlogEntity blog = blogRepository.findByTitle(title);
+    @GetMapping("/{username}/{id}")
+    public String showEditForm(@PathVariable String username,@PathVariable long id, Model model) {
+        BlogEntity blog;
+        try {
+            blog = blogService.getBlogById(id);
+        }catch (Exception e){
+            return e.getMessage();
+        }
         model.addAttribute("edit", blog);
         return "blog/editBlog";
     }
-    @PostMapping("{username}/edit-post")
-    public String updatePost(Principal p,@ModelAttribute PostRequestDto postRequestDto){
-        String username = p.getName();
+    @PostMapping("/{username}/{id}")
+    public String updatePost(@PathVariable long id,@ModelAttribute PostRequestDto postRequestDto){
         try {
-            blogService.updateBlogPost(username,postRequestDto);
-        }catch (NullPointerException e){
+            BlogEntity blog = blogService.updateBlogPost(id,postRequestDto);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
             return "redirect:/user/blog/make-post";
         }
         return "redirect:/user/blog/my-blogs";
     }
-    // TODO 3: Delete blog post
+
 
 }
