@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base::layout(~{::form})">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+<section>
+    <form method="post" action="edit-post" th:object="${edit}">
+        <div class="blog-post-form">
+            <div class="blog-title-layer">
+                <label for="blog-title"></label>
+                <input id="blog-title" name="title" placeholder="Title" th:field="*{title}" th:value="${edit.title}"/><br>
+                <label for="blog-description"></label>
+                <input id="blog-description" name="description" placeholder="Description" th:field="*{description}" th:value="${edit.description}" />
+            </div>
+            <div class="blog-content-layer">
+                <label for="blog-content"></label><br>
+                <textarea id="blog-content" rows="10" cols="50" placeholder="Write your Content" name="contents" th:field="*{contents}" th:value="${edit.contents}"></textarea>
+            </div>
+            <div class="blog-post-btns">
+                <button type="submit">Post</button>
+            </div>
+        </div>
+    </form>
+</section>
 </body>
 </html>

@@ -1,7 +1,11 @@
 package com.programmer.Blog1.Security.Controller;
 
 import com.programmer.Blog1.Blogger.Controller.BlogController;
+import com.programmer.Blog1.Blogger.Model.BlogEntity;
+import com.programmer.Blog1.Blogger.RequestDto.PostRequestDto;
 import com.programmer.Blog1.Blogger.ResponseDto.HomeBlogResponseDto;
+import com.programmer.Blog1.Security.Model.UserEntity;
+import com.programmer.Blog1.Security.Repository.UserRepository;
 import com.programmer.Blog1.Security.RequestDto.UserLoginDto;
 import com.programmer.Blog1.Security.ResponseDto.UserResponseDto;
 import com.programmer.Blog1.Security.Service.ServiceImp.HomeServiceImp;
@@ -23,6 +27,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private HomeServiceImp homeService;
+    @Autowired
+    private UserRepository userRepository;
     @ModelAttribute
     private void userDetails(Model m, Principal p){
         String username = p.getName();
@@ -42,6 +48,14 @@ public class UserController {
     @GetMapping("/write-blog")
     public String writeBlogByUser(){
         return "redirect:/user/blog/make-post";
+    }
+    @GetMapping("/edit")
+    public String loadEditPost(Principal p){
+        String username = p.getName();
+        UserResponseDto user = userService.getUserByUsername(username);
+        String[] uri = user.getUrl().split("/");
+        String title = uri[2];
+        return "redirect:/user/blog/"+username+"/"+title;
     }
 
 

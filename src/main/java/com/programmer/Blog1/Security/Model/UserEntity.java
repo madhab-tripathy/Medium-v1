@@ -37,6 +37,9 @@ public class UserEntity {
 
     private String role;
 
+    @Column(unique = true)
+    private String url;
+
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     List<BlogEntity> blogList = new ArrayList<>();
 }

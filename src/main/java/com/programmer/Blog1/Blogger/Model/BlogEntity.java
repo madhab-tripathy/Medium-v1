@@ -17,7 +17,7 @@ import java.util.Date;
 public class BlogEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(nullable = false)
     private String title;
