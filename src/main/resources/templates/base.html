@@ -3,17 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Base</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
 <div class="navbar">
 <!--    Here links are api end point-->
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/signin">Login</a></li>
-    <li><a href="/register">Register</a></li>
-    <li><a href="/allBlogs">Blogs</a></li>
-    <li><a href="/logout">Logout</a></li>
-  </ul>
+    <th:block th:if="${user == NULL}">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/signin">Login</a></li>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/allBlogs">Blogs</a></li>
+        <li><a href="/signin">Start Writing</a></li>
+      </ul>
+    </th:block>
+    <th:block th:if="${user != NULL}">
+        <ul>
+            <li><a href="/user/">Blogs</a></li>
+<!--            <li><a th:href="@{/my-post/(username=${user.username})}">My Blogs</a></li>-->
+            <li><a href="/user/user-blogs">My Blogs</a></li>
+            <li><a href="/user/write-blog">Start Writing</a></li>
+            <li><a href="#">[[${user.name}]]</a></li>
+            <li><a href="#">Edit Profile</a></li>
+            <li><a href="/user/changePassword">Change Password</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </th:block>
 </div>
 <div th:replace="${content}"></div>
 </body>

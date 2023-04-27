@@ -3,22 +3,24 @@
       th:replace="base::layout(~{::section})">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Blogs</title>
 </head>
 <body>
 <section>
-    <h1>
-        All blogs are Present here.
-    </h1>
-    <div th:each="blog : ${blogs}" class="user-blogs">
+    <div th:each="blog : ${allBlogs}" class="user-blogs">
         <div class="user-blog-header">
-            <h6 th:text="${blog.name}"></h6>
             <h3 th:text="${blog.title}"></h3>
             <time th:text="${blog.pubDate}"></time>
-            <p th:text="${blogs.description}"></p>
+            <p th:text="${blog.description}"></p>
+        </div>
+        <div>
+            <a href="#">Edit</a>
+            <a href="#">Delete</a>
+        </div>
+        <div class="user-blog-content" th:utext="${blog.contents}">
+
         </div>
     </div>
 </section>
-
 </body>
 </html>

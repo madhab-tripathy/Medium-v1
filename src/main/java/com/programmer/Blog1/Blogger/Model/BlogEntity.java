@@ -23,6 +23,9 @@ public class BlogEntity {
     private String title;
 
     @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
     private String contents;
 
     @CreationTimestamp

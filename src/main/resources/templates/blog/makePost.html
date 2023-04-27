@@ -8,18 +8,20 @@
     <title>Post</title>
   </head>
   <body>
-    <form method="post" action="makePost">
-      <div class="blog-post">
+    <form method="post" action="make-post">
+      <div class="blog-post-form">
         <div class="blog-title-layer">
           <label for="blog-title"></label>
-          <input id="blog-title" name="title" placeholder="Title" />
-          <div class="blog-post-btns">
-            <button type="submit">Post</button>
-          </div>
+          <input id="blog-title" name="title" placeholder="Title" /><br>
+          <label for="blog-description"></label>
+          <input id="blog-description" name="description" placeholder="Description" />
         </div>
         <div class="blog-content-layer">
           <label for="blog-content"></label><br>
           <textarea id="blog-content" rows="10" cols="50" placeholder="Write your Content" name="contents"></textarea>
+        </div>
+        <div class="blog-post-btns">
+          <button type="submit">Post</button>
         </div>
       </div>
     </form>

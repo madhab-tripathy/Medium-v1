@@ -12,4 +12,5 @@ import javax.persistence.Entity;
 public class PostRequestDto {
     private String title;
     private String contents;
+    private String description;
 }

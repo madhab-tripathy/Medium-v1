@@ -12,5 +12,6 @@ import java.util.Date;
 public class BlogResponseDto {
     private String title;
     private String contents;
+    private String description;
     private String pubDate;
 }

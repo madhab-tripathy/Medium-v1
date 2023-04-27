@@ -1,0 +1,16 @@
+.user-blog-content{
+    display:flex;
+    flex-direction:column;
+}
+.user-blog-content > div{
+}
+
+.user-blog-content > img{
+    height:200px;
+}
+h3{
+    font-size:24px;
+}
+ul{
+    list-style:none;
+}

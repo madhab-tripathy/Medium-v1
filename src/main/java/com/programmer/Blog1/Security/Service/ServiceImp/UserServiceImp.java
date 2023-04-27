@@ -25,7 +25,7 @@ public class UserServiceImp implements UserService {
     private BCryptPasswordEncoder passwordEncode;
     public UserResponseDto createUser(UserDto userDto) throws UserAlreadyExist {
         UserEntity user = new UserEntity();
-        UserDto existingUser = this.getUserByUsername(userDto.getUsername());
+        UserResponseDto existingUser = this.getUserByUsername(userDto.getUsername());
         if(existingUser != null){
             throw new UserAlreadyExist("User already Exist!!");
         }
@@ -44,40 +44,33 @@ public class UserServiceImp implements UserService {
         BeanUtils.copyProperties(createdUser,userResponseDto);
         return userResponseDto;
     }
-    public long loginUser(UserLoginDto userLoginDto){
-//        UserDto user;
-//        String username = "";
-//        String password = "";
-//        try {
-//            user = userRepository.findByUsername(userLoginDto.getUsername());
-//            username = user.getUsername();
-//            password = user.getPassword();
-//        }catch (NullPointerException e){
-//            throw new NullPointerException("error");
-//        }
-//        if(username.equals(userLoginDto.getUsername()) && password.equals(userLoginDto.getPassword())){
-//            return user.getUserId();
-//        }
-        return 0;
+    public String updateUserPasswordAfterLogin(String username,UserLoginDto userLoginDto) throws Exception {
+        String oldPass = userLoginDto.getOldPassword();
+        String newPass = userLoginDto.getNewPassword();
+        if(!oldPass.isBlank() && !newPass.isBlank()){
+            UserEntity user = userRepository.findByUsername(username);
+            boolean isValidOldPass = passwordEncode.matches(oldPass,user.getPassword());
+            boolean isOldAndNewPassSame = passwordEncode.matches(newPass,user.getPassword());
+            if(isOldAndNewPassSame){
+                throw new Exception("Password must be different from previous password");
+            }
+            if(isValidOldPass){
+                user.setPassword(passwordEncode.encode(newPass));
+                userRepository.save(user);
+                return "Password update successfully...";
+            }else {
+                throw new Exception("Password Mismatch");
+            }
+        }
+        throw new Exception("Invalid inputs!!");
     }
-    public String forgotPassword(UserLoginDto userLoginDto){
-//        UserEntity updatedUser;
-//        try {
-//            updatedUser = userRepository.findByUsername(userLoginDto.getUsername());
-//        }catch (NullPointerException e){
-//            throw new NullPointerException("error");
-//        }
-//        updatedUser.setPassword(userLoginDto.getPassword());
-//        userRepository.save(updatedUser);
-        return "home";
-    }
-    public UserDto getUserByUsername(String username) {
-        UserDto returnValue = null;
-//        UserEntity userEntity = userRepository.findByUsername(username);
-//        if (userEntity != null) {
-//            returnValue = new UserDto();
-//            BeanUtils.copyProperties(userEntity, returnValue);
-//        }
+    public UserResponseDto getUserByUsername(String username) {
+        UserResponseDto returnValue = null;
+        UserEntity userEntity = userRepository.findByUsername(username);
+        if (userEntity != null) {
+            returnValue = new UserResponseDto();
+            BeanUtils.copyProperties(userEntity, returnValue);
+        }
         return returnValue;
     }
     @Override

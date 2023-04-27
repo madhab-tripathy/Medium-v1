@@ -5,10 +5,14 @@ import com.programmer.Blog1.Blogger.Model.BlogEntity;
 import com.programmer.Blog1.Blogger.Repository.BlogRepository;
 import com.programmer.Blog1.Blogger.RequestDto.PostRequestDto;
 import com.programmer.Blog1.Blogger.ResponseDto.BlogResponseDto;
+import com.programmer.Blog1.Security.Model.UserEntity;
+import com.programmer.Blog1.Security.Repository.UserRepository;
+import org.jsoup.safety.Safelist;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,45 +21,83 @@ import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.ui.Model;
+
 @Service
 public class BlogServiceImp {
     @Autowired
     private BlogRepository blogRepository;
-    private final Pattern IMAGE_URL_PATTERN = Pattern.compile("(?i)\\b(https?://\\S+\\.(?:jpg|jpeg|png)\\S*)\\b");
-    public void createBlogPost(PostRequestDto postRequestDto){
+    @Autowired
+    private UserRepository userRepository;
+    private final Pattern IMAGE_URL_PATTERN = Pattern.compile("(?i)\\b((?:https?://|www\\d*\\.|m\\.)\\S+\\.(?:jpg|jpeg|png|gif|bmp|svg|webp|jfif))\\b");
+    public void createBlogPost(String username,PostRequestDto postRequestDto){
         BlogEntity blog = new BlogEntity();
         String title = postRequestDto.getTitle();
         String content = postRequestDto.getContents();
+        String description = postRequestDto.getDescription();
         if(title.isBlank()){
             throw new NullPointerException("Must Contain a title");
         }
         if (content.isBlank()){
+            throw new NullPointerException("Must Contain a Content");
+        }
+        if (description.isBlank()){
             throw new NullPointerException("Must Contain a description");
         }
+        UserEntity user = userRepository.findByUsername(username);
         blog.setContents(content);
         blog.setTitle(title);
-        blogRepository.save(blog);
+        blog.setDescription(description);
+        blog.setPubDate(new Date());
+        blog.setUserEntity(user);
+        List<BlogEntity> blogList = user.getBlogList();
+        blogList.add(blog);
+        user.setBlogList(blogList);
+        userRepository.save(user);
+    }
+    public List<BlogResponseDto> findAllBlogsPostedByCurrentUser(String username){
+        // get the current user by username
+        UserEntity user = userRepository.findByUsername(username);
+        // list of blogs of the current user
+        List<BlogEntity> blogs = user.getBlogList();
+        // convert it into list of request dtos
+        List<BlogResponseDto> blogResponseDtos = new ArrayList<>();
+        for(BlogEntity blog : blogs){
+            BlogResponseDto blogResponseDto = new BlogResponseDto();
+
+            blogResponseDto.setTitle(blog.getTitle());
+            // convert image url to image
+            String contentWithImage = replaceImageUrls(blog.getContents());
+            blogResponseDto.setContents(contentWithImage);
+            String date = dateConvtToString(blog.getPubDate());
+            blogResponseDto.setPubDate(date);
+            blogResponseDto.setDescription(blog.getDescription());
+            blogResponseDtos.add(blogResponseDto);
+        }
+        return blogResponseDtos;
+    }
+    public String dateConvtToString(Date date){
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
+        return formatter.format(date);
     }
     public BlogResponseDto viewBlogById(int blogId){
         BlogEntity blog;
         try {
             blog = blogRepository.findById(blogId).get();
-        }catch (BlogNotFound b){
+        }catch (Exception b){
             throw new BlogNotFound("Blog not found!!");
         }
-        String blogContent = blog.getContents();
-
-        // replace image url with img tag
-        String contentWithImage = replaceImageUrls(blogContent);
+        String contentWithImage = replaceImageUrls(blog.getContents());
+        System.out.println(contentWithImage);
         BlogResponseDto blogResponseDto = new BlogResponseDto();
         blogResponseDto.setContents(contentWithImage);
         blogResponseDto.setTitle(blog.getTitle());
         // convert sql date format to a pattern
-        SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");
-        String strDate = formatter.format(blog.getPubDate());
-        blogResponseDto.setPubDate(strDate);
+        String date = dateConvtToString(blog.getPubDate());
+        blogResponseDto.setPubDate(date);
         return blogResponseDto;
     }
+
 //    public List<String> imageUrlExtractor(String content){
 //        Matcher matcher = IMAGE_URL_PATTERN.matcher(content);
 //        List<String> urls = new ArrayList<>();
@@ -66,23 +108,22 @@ public class BlogServiceImp {
 //        return urls;
 //    }
     public String replaceImageUrls(String content){
-
-        Document document = Jsoup.parse(content);
         Matcher matcher = IMAGE_URL_PATTERN.matcher(content);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             String imageUrl = matcher.group(1);
             String imageHeight = "100";
-            String imgTag = "<img src=\"" + imageUrl + "\" height=\"" + imageHeight + "\" alt=\"img\" />";
-            matcher.appendReplacement(sb, imgTag);
+            String imgTag = "<img src=\"" + imageUrl + "\" height=\"" + imageHeight + "\" />";
+            String divTag = "<div class=\"post-image-container\">" + imgTag + "</div>";
+            matcher.appendReplacement(sb, divTag);
         }
         matcher.appendTail(sb);
+        Safelist safelist = Safelist.none()
+                .addTags("img","div")
+                .addAttributes("img", "src", "alt", "height")
+                .addAttributes("div","class");
 
-        // Remove any other HTML tags from the document
-        Pattern imgPattern = Pattern.compile("<(/?)(?!img)[^>]+?>");
-        Matcher imgMatcher = imgPattern.matcher(document.html());
-        document.html(imgMatcher.replaceAll(""));
-
-        return document.html();
+        return Jsoup.clean(sb.toString(),safelist);
     }
+
 }
