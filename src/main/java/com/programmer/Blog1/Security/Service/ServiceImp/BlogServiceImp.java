@@ -1,12 +1,13 @@
 package com.programmer.Blog1.Security.Service.ServiceImp;
 
-import com.programmer.Blog1.Security.Exception.BlogNotFound;
 import com.programmer.Blog1.Security.Model.BlogEntity;
 import com.programmer.Blog1.Security.Repository.BlogRepository;
 import com.programmer.Blog1.Security.RequestDto.PostRequestDto;
 import com.programmer.Blog1.Security.ResponseDto.BlogResponseDto;
 import com.programmer.Blog1.Security.Model.UserEntity;
 import com.programmer.Blog1.Security.Repository.UserRepository;
+import com.programmer.Blog1.Security.ResponseDto.HomeBlogResponseDto;
+import com.programmer.Blog1.Security.Service.BlogService;
 import org.jsoup.safety.Safelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import org.jsoup.Jsoup;
 
 @Service
-public class BlogServiceImp {
+public class BlogServiceImp implements BlogService {
     @Autowired
     private BlogRepository blogRepository;
     @Autowired
@@ -111,37 +112,40 @@ public class BlogServiceImp {
         }
         return blogResponseDtos;
     }
+    public HomeBlogResponseDto viewBlogs(long id) throws Exception {
+        BlogEntity blog;
+        try {
+            blog = blogRepository.findById(id).get();
+        }catch (Exception e){
+            throw new Exception("Blog not found");
+        }
+        HomeBlogResponseDto homeBlogResponseDto = new HomeBlogResponseDto();
+        BlogResponseDto blogResponseDto = new BlogResponseDto();
+        UserEntity user = blog.getUserEntity();
+        String userName = user.getName();
+        blogResponseDto.setTitle(blog.getTitle());
+        blogResponseDto.setDescription(blog.getDescription());
+        String contentWithImage = replaceImageUrls(blog.getContents());
+        blogResponseDto.setContents(contentWithImage);
+        String date = dateConvtToString(blog.getPubDate());
+        blogResponseDto.setPubDate(date);
+        homeBlogResponseDto.setBlogResponseDto(blogResponseDto);
+        homeBlogResponseDto.setName(userName);
+        return homeBlogResponseDto;
+    }
+    public List<BlogEntity> getAllBlogs(){
+        return blogRepository.findAll();
+    }
+    public List<BlogEntity> getTopSixBlogs(){
+        return blogRepository.findTopSixBlogs();
+    }
+    public void deletePostById(long id){
+        blogRepository.deleteById(id);
+    }
     public String dateConvtToString(Date date){
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
         return formatter.format(date);
     }
-    public BlogResponseDto viewBlogById(long blogId){
-        BlogEntity blog;
-        try {
-            blog = blogRepository.findById(blogId).get();
-        }catch (Exception b){
-            throw new BlogNotFound("Blog not found!!");
-        }
-        String contentWithImage = replaceImageUrls(blog.getContents());
-        System.out.println(contentWithImage);
-        BlogResponseDto blogResponseDto = new BlogResponseDto();
-        blogResponseDto.setContents(contentWithImage);
-        blogResponseDto.setTitle(blog.getTitle());
-        // convert sql date format to a pattern
-        String date = dateConvtToString(blog.getPubDate());
-        blogResponseDto.setPubDate(date);
-        return blogResponseDto;
-    }
-
-//    public List<String> imageUrlExtractor(String content){
-//        Matcher matcher = IMAGE_URL_PATTERN.matcher(content);
-//        List<String> urls = new ArrayList<>();
-//        while (matcher.find()) {
-//            String imageUrl = matcher.group(1);
-//            urls.add(imageUrl);
-//        }
-//        return urls;
-//    }
     public String replaceImageUrls(String content){
         Matcher matcher = IMAGE_URL_PATTERN.matcher(content);
         StringBuffer sb = new StringBuffer();

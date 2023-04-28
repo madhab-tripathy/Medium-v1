@@ -8,15 +8,19 @@
 <body>
 <section>
     <h1>
+        Before login
         All blogs are Present here.
     </h1>
     <div th:each="blog : ${blogs}" class="user-blogs">
-        <div class="user-blog-header">
-            <h6 th:text="${blog.name}"></h6>
-            <h3 th:text="${blog.title}"></h3>
-            <time th:text="${blog.pubDate}"></time>
-            <p th:text="${blogs.description}"></p>
-        </div>
+        <a th:href="@{/user/view-blog/{id}(id=${blog.blogResponseDto.id}})">
+            <div class="user-blog-header">
+                <h5 th:text="${blog.name}"></h5>
+                <h5 th:text="${blog.blogResponseDto.id}"></h5>
+                <time th:text="${blog.blogResponseDto.pubDate}"></time>
+                <h3 th:text="${blog.blogResponseDto.title}"></h3>
+                <p th:text="${blog.blogResponseDto.description}"></p>
+            </div>
+        </a>
     </div>
 </section>
 

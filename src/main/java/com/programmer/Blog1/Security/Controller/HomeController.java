@@ -5,6 +5,9 @@ import com.programmer.Blog1.Security.Exception.UserAlreadyExist;
 import com.programmer.Blog1.Security.RequestDto.UserDto;
 import com.programmer.Blog1.Security.RequestDto.UserLoginDto;
 import com.programmer.Blog1.Security.ResponseDto.UserResponseDto;
+import com.programmer.Blog1.Security.Service.BlogService;
+import com.programmer.Blog1.Security.Service.HomeService;
+import com.programmer.Blog1.Security.Service.ServiceImp.BlogServiceImp;
 import com.programmer.Blog1.Security.Service.ServiceImp.HomeServiceImp;
 import com.programmer.Blog1.Security.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +21,14 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
+@RequestMapping("/")
 public class HomeController {
     @Autowired
     UserService userService;
     @Autowired
-    private BlogController blogController;
+    private HomeService homeService;
     @Autowired
-    private HomeServiceImp homeService;
+    private BlogService blogService;
     @ModelAttribute
     private void userDetails(Model m, Principal p){
         if(p != null){
@@ -57,6 +61,17 @@ public class HomeController {
 //        session.setAttribute(variable,message); // variable - message
         return "redirect:/register";
     }
+    @GetMapping("/view-blog/{id}")
+    public String viewBlog(@PathVariable long id,Model model){
+        HomeBlogResponseDto homeBlogResponseDto = null;
+        try {
+            homeBlogResponseDto = blogService.viewBlogs(id);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        model.addAttribute("readBlog",homeBlogResponseDto);
+        return "/blog/readBlog";
+    }
     @GetMapping("/signin")
     public String login(Authentication authentication){
         if (authentication != null && authentication.isAuthenticated()) {
@@ -81,11 +96,5 @@ public class HomeController {
         }
         System.out.println(result);
         return "redirect:/homeChangePassword";
-    }
-
-     // TODO 2: No need to redirect to blog Controller
-    @RequestMapping("/allBlogs")
-    public String redirectToBlogController(){
-        return "redirect:/blog/";
     }
 }

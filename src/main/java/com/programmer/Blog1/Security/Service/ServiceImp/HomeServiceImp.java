@@ -1,27 +1,26 @@
 package com.programmer.Blog1.Security.Service.ServiceImp;
 
 import com.programmer.Blog1.Security.Model.BlogEntity;
-import com.programmer.Blog1.Security.Repository.BlogRepository;
 import com.programmer.Blog1.Security.ResponseDto.BlogResponseDto;
 import com.programmer.Blog1.Security.ResponseDto.HomeBlogResponseDto;
 import com.programmer.Blog1.Security.Model.UserEntity;
 import com.programmer.Blog1.Security.Repository.UserRepository;
 import com.programmer.Blog1.Security.RequestDto.UserLoginDto;
+import com.programmer.Blog1.Security.Service.BlogService;
+import com.programmer.Blog1.Security.Service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.ArrayList;
 @Service
-public class HomeServiceImp {
+public class HomeServiceImp implements HomeService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncode;
     @Autowired
-    private BlogRepository blogRepository1;
-    @Autowired
-    private BlogServiceImp blogService1;
+    private BlogService blogService;
     public String updateUserPasswordBeforeLogin(UserLoginDto userLoginDto) throws Exception {
         String email = userLoginDto.getEmail();
         String newPass = userLoginDto.getNewPassword();
@@ -38,10 +37,8 @@ public class HomeServiceImp {
         }
         throw new Exception("Invalid inputs!!");
     }
-    // dto - HomeBlogResponseDto
-    // name, title, description, pubDate
     public List<HomeBlogResponseDto> getAllBlogsInHomePage(){
-        List<BlogEntity> blogs = blogRepository1.findAll();
+        List<BlogEntity> blogs = blogService.getAllBlogs();
         List<HomeBlogResponseDto> homeBlogResponseDtos = new ArrayList<>();
         for(BlogEntity blog : blogs){
             UserEntity user = blog.getUserEntity();
@@ -53,10 +50,11 @@ public class HomeServiceImp {
     }
     public BlogResponseDto blogResponseConverter(BlogEntity blog){
         BlogResponseDto blogResponseDto = new BlogResponseDto();
+        blogResponseDto.setId(blog.getId());
         blogResponseDto.setTitle(blog.getTitle());
         blogResponseDto.setContents(blog.getContents());
         blogResponseDto.setDescription(blog.getDescription());
-        String date = blogService1.dateConvtToString(blog.getPubDate());
+        String date = blogService.dateConvtToString(blog.getPubDate());
         blogResponseDto.setPubDate(date);
         return blogResponseDto;
     }
@@ -67,7 +65,7 @@ public class HomeServiceImp {
         return homeBlogResponseDto;
     }
     public List<HomeBlogResponseDto> getTrendingBlogs(){
-        List<BlogEntity> blogs = blogRepository1.findTopSixBlogs();
+        List<BlogEntity> blogs = blogService.getTopSixBlogs();
         List<HomeBlogResponseDto> homeBlogResponseDtos = new ArrayList<>();
         for(BlogEntity blog : blogs){
             UserEntity user = blog.getUserEntity();

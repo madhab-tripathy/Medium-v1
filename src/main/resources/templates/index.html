@@ -23,14 +23,15 @@
 </section>
 <!--Blog section-->
 <section>
-
     <div th:each="blog : ${blogs}" class="user-blogs">
-        <div class="user-blog-header">
-            <h5 th:text="${blog.name}"></h5>
-            <h3 th:text="${blog.blogResponseDto.title}"></h3>
-            <time th:text="${blog.blogResponseDto.pubDate}"></time>
-            <p th:text="${blog.blogResponseDto.description}"></p>
-        </div>
+        <a th:href="@{/view-blog/}+${blog.blogResponseDto.id}">
+            <div class="user-blog-header">
+                <h5 th:text="${blog.name}"></h5>
+                <h3 th:text="${blog.blogResponseDto.title}"></h3>
+                <time th:text="${blog.blogResponseDto.pubDate}"></time>
+                <p th:text="${blog.blogResponseDto.description}"></p>
+            </div>
+        </a>
     </div>
 </section>
 

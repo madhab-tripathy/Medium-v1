@@ -9,13 +9,9 @@ import com.programmer.Blog1.Security.ResponseDto.UserResponseDto;
 import com.programmer.Blog1.Security.Service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.List;
-import java.util.ArrayList;
 
 @Service
 public class UserServiceImp implements UserService {

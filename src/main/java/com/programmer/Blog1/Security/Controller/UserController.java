@@ -1,11 +1,10 @@
 package com.programmer.Blog1.Security.Controller;
 
-import com.programmer.Blog1.Security.Repository.BlogRepository;
 import com.programmer.Blog1.Security.ResponseDto.HomeBlogResponseDto;
-import com.programmer.Blog1.Security.Repository.UserRepository;
 import com.programmer.Blog1.Security.RequestDto.UserLoginDto;
 import com.programmer.Blog1.Security.ResponseDto.UserResponseDto;
-import com.programmer.Blog1.Security.Service.ServiceImp.HomeServiceImp;
+import com.programmer.Blog1.Security.Service.BlogService;
+import com.programmer.Blog1.Security.Service.HomeService;
 import com.programmer.Blog1.Security.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,18 +21,16 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private HomeServiceImp homeService;
+    private HomeService homeService;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BlogRepository blogRepository;
+    private BlogService blogService;
     @ModelAttribute
     private void userDetails(Model m, Principal p){
         String username = p.getName();
         UserResponseDto user = userService.getUserByUsername(username);
         m.addAttribute("user",user);
     }
-    @GetMapping({"/","/blog"})
+    @GetMapping("/blog")
     public String home(Model model){
         List<HomeBlogResponseDto> blogResponseDtos = homeService.getAllBlogsInHomePage();
         model.addAttribute("blogs",blogResponseDtos);
@@ -47,15 +44,26 @@ public class UserController {
     public String writeBlogByUser(){
         return "redirect:/user/blog/make-post";
     }
+    @GetMapping("/view-blog/{id}")
+    public String viewBlog(@PathVariable long id,Model model){
+        HomeBlogResponseDto homeBlogResponseDto = null;
+        try {
+            homeBlogResponseDto = blogService.viewBlogs(id);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        model.addAttribute("readBlog",homeBlogResponseDto);
+        return "/blog/readBlog";
+    }
     @GetMapping("/edit/{id}")
     public String showEditPage(Principal p,@PathVariable long id){
         String username = p.getName();
         return "redirect:/user/blog/"+username+"/"+id;
     }
-    // TODO 3: Delete blog post
+// TODO 3: Delete blog post
     @GetMapping("/delete/{id}")
     public String deletePost(Principal p, @PathVariable long id){
-        blogRepository.deleteById(id);
+        blogService.deletePostById(id);
         return "redirect:/user/user-blogs";
     }
 

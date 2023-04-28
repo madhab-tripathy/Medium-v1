@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Read Blog</h1>
+<section>
+    <div class="user-blogs">
+        <div class="user-blog-header">
+            <h5 th:text="${readBlog.name}"></h5>
+            <h3 th:text="${readBlog.blogResponseDto.title}"></h3>
+            <time th:text="${readBlog.blogResponseDto.pubDate}"></time>
+            <p th:text="${readBlog.blogResponseDto.description}"></p>
+        </div>
+        <div class="user-blog-content" th:utext="${readBlog.blogResponseDto.contents}">
+        </div>
+    </div>
+</section>
+</body>
+</html>
