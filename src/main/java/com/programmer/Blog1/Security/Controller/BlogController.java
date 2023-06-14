@@ -1,19 +1,19 @@
 package com.programmer.Blog1.Security.Controller;
 
 import com.programmer.Blog1.Security.Model.BlogEntity;
-import com.programmer.Blog1.Security.Repository.BlogRepository;
+import com.programmer.Blog1.Security.Model.UserEntity;
 import com.programmer.Blog1.Security.RequestDto.PostRequestDto;
 import com.programmer.Blog1.Security.ResponseDto.BlogResponseDto;
+import com.programmer.Blog1.Security.ResponseDto.HomeBlogResponseDto;
 import com.programmer.Blog1.Security.Service.BlogService;
-import com.programmer.Blog1.Security.Service.ServiceImp.BlogServiceImp;
 import com.programmer.Blog1.Security.ResponseDto.UserResponseDto;
 import com.programmer.Blog1.Security.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
@@ -68,26 +68,38 @@ public class BlogController {
         model.addAttribute("username", username);
         return "redirect:/user/blog/"+username;
     }
-// TODO 2: update blog post
-    @GetMapping("/{username}/{id}")
-    public String showEditForm(@PathVariable String username,@PathVariable long id, Model model,Authentication authentication) {
-        if (!authentication.getName().equals(username)) {
-            return "blog/userBlogs";
+
+    @GetMapping("/view-blog")
+    public String viewBlog(@RequestParam long id,Model model){
+        HomeBlogResponseDto homeBlogResponseDto = null;
+        try {
+            homeBlogResponseDto = blogService.viewBlogs(id);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
+        model.addAttribute("readBlog",homeBlogResponseDto);
+        return "blog/readBlog";
+    }
+
+    @GetMapping("/edit")
+    public String showEditForm(@RequestParam long id, Model model,Authentication authentication) {
         BlogEntity blog;
         try {
             blog = blogService.getBlogById(id);
         }catch (Exception e){
-            return e.getMessage();
+            System.out.println(e.getMessage());
+            return "redirect:userBlogs";
+        }
+        String username = blog.getUserEntity().getUsername();
+        if (!authentication.getName().equals(username)) {
+            return "redirect:userBlogs";
         }
         model.addAttribute("edit", blog);
         return "blog/editBlog";
     }
-    @PostMapping("/{username}/{id}")
-    public String updatePost(@PathVariable String username,@PathVariable long id,@ModelAttribute PostRequestDto postRequestDto, Authentication authentication){
-        if (!authentication.getName().equals(username)) {
-            return "blog/userBlogs";
-        }
+    // TODO 2: update blog post
+    @PostMapping("/update")
+    public String updatePost(@RequestParam long id,@ModelAttribute PostRequestDto postRequestDto, Authentication authentication){
         try {
             BlogEntity blog = blogService.updateBlogPost(id,postRequestDto);
         }catch (Exception e) {
@@ -96,6 +108,10 @@ public class BlogController {
         }
         return "redirect:/user/blog/my-blogs";
     }
-//    TODO 4: Read blogs
-
+//    TODO 3: Delete blogs
+    @GetMapping("/delete")
+    public String deletePost(@RequestParam long id){
+        blogService.deletePostById(id);
+        return "redirect:/user/user-blogs";
+    }
 }

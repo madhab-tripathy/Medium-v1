@@ -4,6 +4,7 @@ import com.programmer.Blog1.Security.Model.BlogEntity;
 import com.programmer.Blog1.Security.RequestDto.PostRequestDto;
 import com.programmer.Blog1.Security.ResponseDto.BlogResponseDto;
 import com.programmer.Blog1.Security.ResponseDto.HomeBlogResponseDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;

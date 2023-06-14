@@ -1,15 +1,14 @@
 <!DOCTYPE HTML>
 <html lang="" xmlns:th="http://www.thymeleaf.org"
-      th:replace="base::layout(~{::form})">
+      th:replace="base::layout(~{::body})">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>register</title>
 </head>
-<body>
+<body class="user-body">
     <div>
-        <h1>Message Block</h1>
         <th:block th:if="${session.message}">
             <p>
                 [[${session.message}]]
@@ -18,24 +17,42 @@
             <th:block th:text="${#session.removeAttribute('message')}"></th:block>
         </th:block>
     </div>
-    <form method="post" action="createUser">
-        <label for="name">Full Name<span>*</span></label>
-        <input id="name" type="text" name="name" required><br>
+    <section class="user-account-section">
+        <div class="user-account-card">
+            <div class="close-modal">
+                <a href="/"><i class="fa fa-times" aria-hidden="true"></i></a>
+            </div>
+            <form class="form" method="post" action="createUser">
+                <div class="form-item">
+                    <input id="name" type="text" name="name" autocomplete="off" required>
+                    <label for="name">Full Name<span class="form-marker">*</span></label>
+                </div>
 
-        <label for="username">Username<span>*</span></label>
-        <input id="username" type="text" name="username" required><br>
-
-        <label for="email">Email<span>*</span></label>
-        <input id="email" type="email" name="email" required><br>
-
-        <label for="mobile">Mobile<span>*</span></label>
-        <input id="mobile" type="tel" name="mobile" required><br>
-
-        <label for="password">Password<span>*</span></label>
-        <input id="password" type="password" name="password" required><br>
-
-        <button type="submit">Register</button>
-        <button type="reset">Reset</button>
-    </form>
+                <div class="form-item">
+                    <input id="username" type="text" name="username" autocomplete="off" required>
+                    <label for="username">Username<span>*</span></label>
+                </div>
+                <div class="form-item">
+                    <input id="email" type="email" name="email" autocomplete="off" required>
+                    <label for="email">Email<span>*</span></label>
+                </div>
+                <div class="form-item">
+                    <input id="mobile" type="tel" name="mobile" autocomplete="off" required>
+                    <label for="mobile">Mobile<span>*</span></label>
+                </div>
+                <div class="form-item">
+                    <input id="password" type="password" name="password" autocomplete="off" required>
+                    <label for="password">Password<span>*</span></label>
+                </div>
+                <div class="form-button-group">
+                    <button class="btn" type="submit">Register</button>
+                    <button class="btn" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <script>
+        document.getElementById("menu").style.display="none";
+    </script>
 </body>
 </html>

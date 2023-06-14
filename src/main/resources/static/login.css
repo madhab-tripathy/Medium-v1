@@ -1,0 +1,119 @@
+.user-body{
+    height: 100vh;
+    background:url("Images/ivan-maljarenko-A2ifbtQ1qK8-unsplash.jpg") no-repeat center/cover;
+    background-size: cover;
+}
+.close-modal{
+    margin: 0;
+}
+.close-modal a i{
+    position: absolute;
+    z-index: 3;
+    right:0;
+    top: 0;
+    margin: 20px;
+    font-size: 1.4rem;
+    color: #ccc;
+}
+.close-modal a i:hover{
+    color: #5C469C;
+}
+.user-account-section .user-account-card{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 400px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    background:#fff;
+    border-radius: 8px;
+}
+.user-account-card .form{
+    width: 400px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+.user-account-card .form .form-item{
+    position: relative;
+}
+.user-account-card .form .form-item input{
+    width: 300px;
+    height: 35px;
+    background: transparent;
+    border: solid 2px #ccc;
+    color:#5C469C;
+    padding: 0 15px;
+    margin: 0 auto 30px;
+}
+.user-account-card .form .form-item input:focus{
+    border-color: #5C469C;
+}
+.user-account-card .form .form-item label{
+    position: absolute;
+    cursor: text;
+    z-index: 2;
+    top: 10px;
+    left: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    background: #fff;
+    padding: 0 10px;
+    color: #999;
+}
+.user-account-card .form .form-item input:focus + label,
+.user-account-card .form .form-item input:valid + label{
+    font-size: 11px;
+    top: -5px;
+}
+.user-account-card .form .form-item input:focus + label{
+    color: #5C469C;
+}
+.form .form-button-group{
+    display: flex;
+    width: 100%;
+    justify-content:space-between;
+}
+.form .form-button-group .btn{
+    cursor: pointer;
+    width: 48%;
+    height: 38px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #999;
+    background-color: #fff;
+    border: 2px solid #999;
+}
+.form .form-button-group .btn:hover{
+    background-color: #5C469C;
+    color:#fff;
+    border: 2px solid #5C469C;
+}
+
+/* login */
+.form a{
+    color: #999;
+    text-decoration: none;
+}
+.form a:active {
+    color: #5C469C;
+}
+.form .form-button-group.login-btn{
+    margin-top: 35px;
+}
+.form .forgot{
+    display: flex;
+    justify-content:space-between;
+    width: 100%;
+}
+.form .forgot .register a:hover{
+    color:#5C469C;
+}

@@ -1,22 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="base::layout(~{::form})">
+      th:replace="base::layout(~{::body})">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
+
+    <title>Login</title>
 </head>
-<body>
-    <form method="post" action="login">
-        <label for="username">Username<span>*</span></label>
-        <input id="username" type="text" name="username" required><br>
-        <label for="password">Password<span>*</span></label>
-        <input id="password" type="password" name="password" required><br>
-        <a href="homeChangePassword">Forgot Password?</a>
-        <br>
-        <button type="submit">login</button>
-        <button type="reset">Reset</button>
-    </form>
-</body>
+
+    <body class="user-body">
+
+        <section class="user-account-section">
+
+            <div class="user-account-card" style="height:350px">
+                <div class="close-modal">
+                    <a href="/"><i class="fa fa-times" aria-hidden="true"></i></a>
+                </div>
+                <form class="form" method="post" action="login">
+                    <div class="form-item">
+                        <input id="username" type="text" name="username" autocomplete="off" required>
+                        <label for="username">Username<span>*</span></label>
+                    </div>
+                    <div class="form-item">
+                        <input id="password" type="password" name="password" autocomplete="off" required>
+                        <label for="password">Password<span>*</span></label>
+                    </div>
+                    <div class="forgot">
+                        <a href="homeChangePassword">Forgot Password?</a>
+                        <div class="register">
+                            <a href="/register">Register &nbsp;Here</a>
+                        </div>
+                    </div>
+                    <div class="form-button-group login-btn">
+                        <button class="btn" type="submit">Login</button>
+                        <button class="btn" type="reset">Reset</button>
+                    </div>
+                </form>
+            </div>
+
+        </section>
+        <script>
+                document.getElementById("menu").style.display="none";
+        </script>
+    </body>
 </html>

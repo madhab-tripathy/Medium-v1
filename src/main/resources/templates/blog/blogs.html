@@ -7,10 +7,6 @@
 </head>
 <body>
 <section>
-    <h1>
-        Before login
-        All blogs are Present here.
-    </h1>
     <div th:each="blog : ${blogs}" class="user-blogs">
         <a th:href="@{/user/view-blog/{id}(id=${blog.blogResponseDto.id}})">
             <div class="user-blog-header">

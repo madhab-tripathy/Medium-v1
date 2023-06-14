@@ -44,28 +44,6 @@ public class UserController {
     public String writeBlogByUser(){
         return "redirect:/user/blog/make-post";
     }
-    @GetMapping("/view-blog/{id}")
-    public String viewBlog(@PathVariable long id,Model model){
-        HomeBlogResponseDto homeBlogResponseDto = null;
-        try {
-            homeBlogResponseDto = blogService.viewBlogs(id);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        model.addAttribute("readBlog",homeBlogResponseDto);
-        return "/blog/readBlog";
-    }
-    @GetMapping("/edit/{id}")
-    public String showEditPage(Principal p,@PathVariable long id){
-        String username = p.getName();
-        return "redirect:/user/blog/"+username+"/"+id;
-    }
-// TODO 3: Delete blog post
-    @GetMapping("/delete/{id}")
-    public String deletePost(Principal p, @PathVariable long id){
-        blogService.deletePostById(id);
-        return "redirect:/user/user-blogs";
-    }
 
 
 

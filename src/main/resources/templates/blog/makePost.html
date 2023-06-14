@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="base::layout(~{::form})">
+      th:replace="base::layout(~{::section})">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,22 +8,24 @@
     <title>Post</title>
   </head>
   <body>
-    <form method="post" action="make-post">
-      <div class="blog-post-form">
+    <section id="post-content">
+      <form method="post" action="make-post">
         <div class="blog-title-layer">
           <label for="blog-title"></label>
-          <input id="blog-title" name="title" placeholder="Title" /><br>
+          <input type="text" id="blog-title" name="title" placeholder="Title" /><br>
           <label for="blog-description"></label>
-          <input id="blog-description" name="description" placeholder="Description" />
+          <textarea id="blog-description" name="description" placeholder="Give a short description about your story..." class="scroll"></textarea>
+          <div>
+            <label for="photo">Upload a cover Image for your story !</label>
+            <input type="file" id="photo" name="photo" accept="image/png,image/jpeg,image/jpg" />
+            <button type="submit" class="blog-post-btn">Publish</button>
+          </div>
         </div>
         <div class="blog-content-layer">
-          <label for="blog-content"></label><br>
-          <textarea id="blog-content" rows="10" cols="50" placeholder="Write your Content" name="contents"></textarea>
+          <label for="blog-content"></label>
+          <textarea id="blog-content" placeholder="Tell your story..." name="contents" class="scroll"></textarea>
         </div>
-        <div class="blog-post-btns">
-          <button type="submit">Post</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </section>
   </body>
 </html>

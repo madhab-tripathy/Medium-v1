@@ -6,25 +6,61 @@
     <title>Home</title>
 </head>
 <body>
-<section>
-    <h1>
-        Page After login
-    </h1>
-    <div th:each="blog : ${blogs}" class="user-blogs">
-        <a th:href="@{/user/view-blog/}+${blog.blogResponseDto.id}">
-            <div class="user-blog-header">
-                <h5 th:text="${blog.name}"></h5>
-                <time th:text="${blog.blogResponseDto.pubDate}"></time>
-                <h3 th:text="${blog.blogResponseDto.title}"></h3>
-                <p th:text="${blog.blogResponseDto.description}"></p>
-            </div>
-        </a>
-    </div>
 
+<!--</section>-->
 <!--    <h2>Name:[[${user.name}]]</h2>-->
 <!--    <h2>Username:[[${user.username}]]</h2>-->
 <!--    <h2>Email:[[${user.email}]]</h2>-->
+<section id="blog-collection">
+    <div class="user-blogs">
+        <a th:each="blog : ${blogs}" th:href="@{/view-blog?id={id}(id=${blog.blogResponseDto.id})}">
+            <div class="user-blog-l-card">
+                <div class="blog-card-header">
+                    <div>
+                        <img src="../Images/ivan-maljarenko-A2ifbtQ1qK8-unsplash.jpg" alt="user">
+                    </div>
+                    <h5 th:text="${blog.name}"></h5>
+                </div>
+                <h3 th:text="${blog.blogResponseDto.title}"></h3>
+                <p th:text="${blog.blogResponseDto.description}"></p>
+                <time th:text="${blog.blogResponseDto.pubDate}"></time>
+            </div>
+            <div class="blog-thumbnail">
+                <img src="../Images/ivan-maljarenko-A2ifbtQ1qK8-unsplash.jpg" alt="blog">
+            </div>
+        </a>
+    </div>
+    <div class="blog-discovery">
+        <div class="discovery-content">
+            <h4>Discover more of what matters to you</h4>
+            <ul>
+                <li><a href="">Programming</a></li>
+                <li><a href="">Data Science</a></li>
+                <li><a href="">Technology</a></li>
+                <li><a href="">Self Improvement</a></li>
+                <li><a href="">Writing</a></li>
+                <li><a href="">Relationships</a></li>
+                <li><a href="">Machine Learning</a></li>
+                <li><a href="">Productivity</a></li>
+                <li><a href="">Politics</a></li>
+            </ul>
+        </div>
+        <hr>
+        <footer>
+            <ul>
+                <li><a href="">Help</a></li>
+                <li><a href="">Status</a></li>
+                <li><a href="">Writers</a></li>
+                <li><a href="">Blog</a></li>
+                <li><a href="">Careers</a></li>
+                <li><a href="">Privacy</a></li>
+                <li><a href="">Terms</a></li>
+                <li><a href="">About</a></li>
+                <li><a href="">Text to speech</a></li>
+                <li><a href="">Teams</a></li>
+            </ul>
+        </footer>
+    </div>
 </section>
-
 </body>
 </html>

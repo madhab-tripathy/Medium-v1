@@ -1,6 +1,7 @@
 package com.programmer.Blog1.Security.Service.ServiceImp;
 
 import com.programmer.Blog1.Security.Model.BlogEntity;
+import com.programmer.Blog1.Security.Repository.BlogRepository;
 import com.programmer.Blog1.Security.ResponseDto.BlogResponseDto;
 import com.programmer.Blog1.Security.ResponseDto.HomeBlogResponseDto;
 import com.programmer.Blog1.Security.Model.UserEntity;
@@ -65,6 +66,7 @@ public class HomeServiceImp implements HomeService {
         return homeBlogResponseDto;
     }
     public List<HomeBlogResponseDto> getTrendingBlogs(){
+
         List<BlogEntity> blogs = blogService.getTopSixBlogs();
         List<HomeBlogResponseDto> homeBlogResponseDtos = new ArrayList<>();
         for(BlogEntity blog : blogs){

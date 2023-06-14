@@ -1,27 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="base::layout(~{::form})">
+      th:replace="base::layout(~{::section})">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<section>
-    <form method="post" th:action="@{/user/blog/{username}/{id}(id=${edit.id})}" th:object="${edit}">
-        <div class="blog-post-form">
-            <div class="blog-title-layer">
-                <label for="blog-title"></label>
-                <input id="blog-title" name="title" placeholder="Title" th:field="*{title}" th:value="${edit.title}"/><br>
-                <label for="blog-description"></label>
-                <input id="blog-description" name="description" placeholder="Description" th:field="*{description}" th:value="${edit.description}" />
+<!--<section>-->
+<!--    <form method="post" th:action="@{/user/blog/update?id={id}(id=${edit.id})}" th:object="${edit}">-->
+<!--        <div class="blog-post-form">-->
+<!--            <div class="blog-title-layer">-->
+<!--                <label for="blog-title"></label>-->
+<!--                <input id="blog-title" name="title" placeholder="Title" th:field="*{title}" th:value="${edit.title}"/><br>-->
+<!--                <label for="blog-description"></label>-->
+<!--                <input id="blog-description" name="description" placeholder="Description" th:field="*{description}" th:value="${edit.description}" />-->
+<!--            </div>-->
+<!--            <div class="blog-content-layer">-->
+<!--                <label for="blog-content"></label><br>-->
+<!--                <textarea id="blog-content" rows="10" cols="50" placeholder="Write your Content" name="contents" th:field="*{contents}" th:value="${edit.contents}"></textarea>-->
+<!--            </div>-->
+<!--            <div class="blog-post-btns">-->
+<!--                <button type="submit">Post</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</section>-->
+
+<section id="post-content">
+    <form method="post" th:action="@{/user/blog/update?id={id}(id=${edit.id})}" th:object="${edit}">
+        <div class="blog-title-layer">
+            <label for="blog-title"></label>
+            <input type="text" id="blog-title" name="title" placeholder="Title" th:field="*{title}" th:value="${edit.title}"/><br>
+            <label for="blog-description"></label>
+            <textarea id="blog-description" name="description" placeholder="Give a short description about your story..." class="scroll"
+                      th:field="*{description}" th:value="${edit.description}"></textarea>
+            <div>
+                <label for="photo">Upload a cover Image for your story !</label>
+                <input type="file" id="photo" name="photo" accept="image/png,image/jpeg,image/jpg" />
+                <button type="submit" class="blog-post-btn">Publish</button>
             </div>
-            <div class="blog-content-layer">
-                <label for="blog-content"></label><br>
-                <textarea id="blog-content" rows="10" cols="50" placeholder="Write your Content" name="contents" th:field="*{contents}" th:value="${edit.contents}"></textarea>
-            </div>
-            <div class="blog-post-btns">
-                <button type="submit">Post</button>
-            </div>
+        </div>
+        <div class="blog-content-layer">
+            <label for="blog-content"></label>
+            <textarea id="blog-content" placeholder="Tell your story..." name="contents" class="scroll"
+                      th:field="*{contents}" th:value="${edit.contents}"></textarea>
         </div>
     </form>
 </section>

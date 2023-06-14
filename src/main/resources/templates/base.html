@@ -2,34 +2,81 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
 <head>
     <meta charset="UTF-8">
-    <title>Base</title>
+    <title>Where good ideas find</title>
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/login.css">
+    <link rel="stylesheet" type="text/css" href="/mediaQuery.css">
+    <link rel="stylesheet" type="text/css" href="/trendingCard.css">
+    <link rel="stylesheet" type="text/css" href="/landingPage.css">
+    <link rel="stylesheet" type="text/css" href="/publishBlog.css">
+    <link rel="stylesheet" type="text/css" href="/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<div class="navbar">
-<!--    Here links are api end point-->
-    <th:block th:if="${user == NULL}">
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/signin">Login</a></li>
-        <li><a href="/register">Register</a></li>
-        <li><a href="/allBlogs">Blogs</a></li>
-        <li><a href="/signin">Start Writing</a></li>
-      </ul>
-    </th:block>
-    <th:block th:if="${user != NULL}">
-        <ul>
-            <li><a href="/user/blog">Blogs</a></li>
-<!--            <li><a th:href="@{/my-post/(username=${user.username})}">My Blogs</a></li>-->
-            <li><a href="/user/user-blogs">My Blogs</a></li>
-            <li><a href="/user/write-blog">Start Writing</a></li>
-            <li><a href="#">[[${user.name}]]</a></li>
-            <li><a href="#">Edit Profile</a></li>
-            <li><a href="/user/changePassword">Change Password</a></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
-    </th:block>
-</div>
-<div th:replace="${content}"></div>
+<th:block th:if="${user == NULL}">
+    <nav id="menu">
+        <div class="nav-logo">
+            <a href="/"><i class="fa fa-behance-square"></i></a>
+            <div class="nav-search">
+                <form method="post" action="/">
+                    <input type="text" placeholder="Search.."  name="search">
+                </form>
+            </div>
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a href="/">Blogs</a></li>
+                <li><a href="/signin">Write</a></li>
+                <li><a href="/signin">Sign In</a></li>
+                <div class="nav-button">
+                    <li><a href="/signin">Get started</a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+</th:block>
+<th:block th:if="${user != NULL}">
+    <nav id="menu" class="u-menu">
+        <div class="nav-logo">
+            <a href="/user/blog"><i class="fa fa-behance-square"></i></a>
+            <div class="nav-search">
+                <form method="post" action="/">
+                    <input type="text" placeholder="Search.."  name="search">
+                </form>
+            </div>
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a href="/user/user-blogs">My Blogs</a></li>
+                <li><a href="/user/write-blog">Start Writing</a></li>
+                <div class="dropdown">
+                    <div id="user-logo">[[${user.name}]]</div>
+                    <div class="dropdown-menu">
+                        <li><a href="#">[[${user.name}]]</a></li>
+                        <li><a href="/user/changePassword">Change Password</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </nav>
+</th:block>
+
+    <div th:replace="${content}"></div>
+    <script>
+        const dropdownBtn = document.getElementById("user-logo");
+        const dropdownMenu = document.querySelector('#menu .dropdown .dropdown-menu');
+        const nav = document.getElementsByTagName('nav')[0];
+
+        dropdownBtn.addEventListener('mouseover',()=>{
+            dropdownMenu.classList.add('box-animation')
+        })
+        nav.addEventListener('click',()=>{
+            dropdownMenu.classList.remove('box-animation')
+        })
+        const logoName = dropdownBtn.innerText;
+        dropdownBtn.innerText = logoName[0].toUpperCase();
+    </script>
 </body>
 </html>

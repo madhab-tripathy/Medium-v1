@@ -7,8 +7,6 @@ import com.programmer.Blog1.Security.RequestDto.UserLoginDto;
 import com.programmer.Blog1.Security.ResponseDto.UserResponseDto;
 import com.programmer.Blog1.Security.Service.BlogService;
 import com.programmer.Blog1.Security.Service.HomeService;
-import com.programmer.Blog1.Security.Service.ServiceImp.BlogServiceImp;
-import com.programmer.Blog1.Security.Service.ServiceImp.HomeServiceImp;
 import com.programmer.Blog1.Security.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -61,8 +59,8 @@ public class HomeController {
 //        session.setAttribute(variable,message); // variable - message
         return "redirect:/register";
     }
-    @GetMapping("/view-blog/{id}")
-    public String viewBlog(@PathVariable long id,Model model){
+    @GetMapping("/view-blog")
+    public String viewBlog(@RequestParam long id,Model model){
         HomeBlogResponseDto homeBlogResponseDto = null;
         try {
             homeBlogResponseDto = blogService.viewBlogs(id);

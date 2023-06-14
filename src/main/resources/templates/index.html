@@ -1,39 +1,110 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="base::layout(~{::section})">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
+      th:replace="base::layout(~{::body})">
 <body>
 <!--Home landing section-->
-<section>
-    <h1>Index</h1>
-</section>
-
-<section>
-    <h4>Trending Section</h4>
-    <div th:each="blog : ${trending}" class="user-blogs">
-        <div class="user-blog-header">
-            <h5 th:text="${blog.name}"></h5>
-            <h3 th:text="${blog.blogResponseDto.title}"></h3>
-            <time th:text="${blog.blogResponseDto.pubDate}"></time>
+    <div id="root">
+        <div class="hero">
+            <div class="banner-lf">
+                <div class="ban-title">
+                    <h1>Stay Curious.</h1>
+                </div>
+                <div class="ban-sub-title">
+                    <p>Discover stories, thinking, and expertise from writers on any topic.</p>
+                </div>
+                <div class="hero-button">
+                    <a href="">Start reading</a>
+                </div>
+            </div>
+            <div class="banner-rf">
+                <div>
+                    <img src="/Images/undraw_content_creator_re_pt5b.svg" alt="">
+                </div>
+            </div>
         </div>
     </div>
-</section>
-<!--Blog section-->
-<section>
-    <div th:each="blog : ${blogs}" class="user-blogs">
-        <a th:href="@{/view-blog/}+${blog.blogResponseDto.id}">
-            <div class="user-blog-header">
-                <h5 th:text="${blog.name}"></h5>
-                <h3 th:text="${blog.blogResponseDto.title}"></h3>
-                <time th:text="${blog.blogResponseDto.pubDate}"></time>
-                <p th:text="${blog.blogResponseDto.description}"></p>
+    <div class="trending-blogs">
+        <div class="trending-header">
+            <img src="/Images/trending.png" alt="trend">
+            <h2>Trending on Medium</h2>
+        </div>
+        <div class="tr-bl-sc">
+            <div th:each="blog,iterStat : ${trending}" class="tr-bl-crd">
+                <div class="trending-number">
+                    <h2 th:text="${'0'+iterStat.count}"></h2>
+                </div>
+                <a th:href="@{/view-blog?id={id}(id=${blog.blogResponseDto.id})}">
+                    <div class="trending-blog-content">
+                        <div class="trending-card-header">
+                            <div class="trending-img">
+                                <img src="./Images/ivan-maljarenko-A2ifbtQ1qK8-unsplash.jpg" alt="profile">
+                            </div>
+                            <div class="user-name">
+                                <h3 th:text="${blog.name}"></h3>
+                            </div>
+                        </div>
+                        <div class="trending-card-bottom">
+                            <div class="trending-title">
+                                <p th:text="${blog.blogResponseDto.title}"></p>
+                            </div>
+                            <time th:text="${blog.blogResponseDto.pubDate}"></time>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </a>
+        </div>
     </div>
-</section>
-
+    <!--Blog section-->
+    <section id="blog-collection">
+        <div class="user-blogs">
+             <a th:each="blog : ${blogs}" th:href="@{/view-blog?id={id}(id=${blog.blogResponseDto.id})}">
+                <div class="user-blog-l-card">
+                    <div class="blog-card-header">
+                        <div>
+                            <img src="./Images/ivan-maljarenko-A2ifbtQ1qK8-unsplash.jpg" alt="user">
+                        </div>
+                        <h5 th:text="${blog.name}"></h5>
+                    </div>
+                    <h3 th:text="${blog.blogResponseDto.title}"></h3>
+                    <p th:text="${blog.blogResponseDto.description}"></p>
+                    <time th:text="${blog.blogResponseDto.pubDate}"></time>
+                </div>
+                <div class="blog-thumbnail">
+                    <img src="./Images/ivan-maljarenko-A2ifbtQ1qK8-unsplash.jpg" alt="blog">
+                </div>
+            </a>
+        </div>
+        <div class="blog-discovery">
+            <div class="discovery-content">
+                <h4>Discover more of what matters to you</h4>
+                <ul>
+                    <li><a href="">Programming</a></li>
+                    <li><a href="">Data Science</a></li>
+                    <li><a href="">Technology</a></li>
+                    <li><a href="">Self Improvement</a></li>
+                    <li><a href="">Writing</a></li>
+                    <li><a href="">Relationships</a></li>
+                    <li><a href="">Machine Learning</a></li>
+                    <li><a href="">Productivity</a></li>
+                    <li><a href="">Politics</a></li>
+                </ul>
+            </div>
+            <hr>
+            <footer>
+                <ul>
+                    <li><a href="">Help</a></li>
+                    <li><a href="">Status</a></li>
+                    <li><a href="">Writers</a></li>
+                    <li><a href="">Blog</a></li>
+                    <li><a href="">Careers</a></li>
+                    <li><a href="">Privacy</a></li>
+                    <li><a href="">Terms</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="">Text to speech</a></li>
+                    <li><a href="">Teams</a></li>
+                </ul>
+            </footer>
+        </div>
+    </section>
 </body>
 </html>

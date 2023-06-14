@@ -1,0 +1,91 @@
+#post-content{
+    display: flex;
+    justify-content:center;
+    padding: 0 2rem;
+    margin-top: 3rem;
+}
+#post-content form{
+    width: 800px;
+    margin: 0 2rem;
+}
+.blog-title-layer{
+    display:flex;
+    flex-direction: column
+}
+.blog-title-layer input[type="text"]{
+    height: 50px;
+    font-size:42px;
+    border: none;
+    outline: none;
+}
+.blog-title-layer input[type="text"]::placeholder{
+    color: rgb(206, 207, 208);
+}
+.blog-title-layer textarea{
+    height: 70px;
+    font-size: 20px;
+    letter-spacing: 0.04rem;
+    border: none;
+    outline: none;
+    resize: none;
+}
+.blog-title-layer textarea::placeholder{
+    color: rgb(206, 207, 208);
+}
+.blog-title-layer div{
+    margin-top: 2rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+.blog-title-layer div label{
+    color:rgb(206, 207, 208);
+}
+.blog-title-layer div input{
+    height:30px;
+}
+.blog-title-layer div input[type="file"]::file-selector-button{
+    height: 30px;
+    width: 100px;
+    background-color: var(--banner-color);
+    border: 1px solid var(--banner-color);
+    border-radius: 2px;
+    color: var(--nav-font-color);
+}
+.blog-title-layer div .blog-post-btn{
+    text-align: center;
+    width: 70px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    border-radius: 2px;
+    background-color: var(--shadow-banner-color);
+    color: var(--nav-font-color);
+    border: 1px solid var(--shadow-banner-color);
+    font-weight: 600;
+    cursor: pointer;
+}
+.blog-title-layer div .blog-post-btn:hover{
+    background-color: var(--banner-color);
+    border: 1px solid var(--banner-color);
+}
+#post-content .blog-content-layer{
+    width: 100%;
+    position: relative;
+    margin-top:2rem;
+}
+#post-content .blog-content-layer textarea{
+    width: 100%;
+    resize: none;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    height: 40vh;
+}
+#post-content .blog-content-layer textarea::placeholder{
+    color:rgb(206, 207, 208);
+}
+.scroll::-webkit-scrollbar{
+    display: none;
+}
